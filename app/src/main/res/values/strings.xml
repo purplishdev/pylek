@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Pylek</string>
+    <string name="temperature_label">Temperatura</string>
+    <string name="pressure_label">Ciśnienie</string>
+    <string name="pm10_label">PM10</string>
+    <string name="pm25_label">PM2.5</string>
 </resources>
