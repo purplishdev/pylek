@@ -3,11 +3,15 @@ package me.michalwozniak.pylek;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.junit.Assert;
 import org.junit.Test;
 
-import me.michalwozniak.pylek.model.InfluxResponse;
+import java.util.Date;
 
-import static org.junit.Assert.assertEquals;
+import me.michalwozniak.pylek.api.AirApi;
+import me.michalwozniak.pylek.json.InfluxRecordDeserializer;
+import me.michalwozniak.pylek.model.InfluxResponse;
+import me.michalwozniak.pylek.model.Station;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -15,24 +19,29 @@ import static org.junit.Assert.assertEquals;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
-    @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+
+    @Test public void
+    shouldReturnInfluxData() {
+
+        Station station = Station.HRYNIEWICZA;
+
+        AirApi service = new InfluxAirApi();
+
+        System.out.println(String.format("Current date: %s\nPM25: %.2f\nPM10: %.2f\nTemperature: %.2f\nHumidity: %.2f\nPressure: %.2f",
+                           new Date(), service.getPM25(station), service.getPM10(station),
+                           service.getTemperature(station), service.getHumidity(station), service.getPressure(station)));
     }
 
-    @Test
-    public void mainActivity_shouldBeCreated() {
-        new MainActivity();
-    }
-
-    @Test
-    public void shouldDeserializeInfluxResponse() {
+    @Test public void
+    shouldGetResponseFromInfluxDb() {
 
         GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(InfluxResponse.class, new InfluxRecordDeserializer());
         Gson gson = gsonBuilder.create();
 
         InfluxResponse response = gson.fromJson("{\"results\":[{\"series\":[{\"name\":\"DEW_POINT\",\"columns\":[\"time\"," +
-                              "\"value\"],\"values\":[[\"2018-10-16T19:19:23.663550448Z\",4.82]," +
-                              "[\"2018-10-16T19:17:14.373770382Z\",4.84]]}]}]}", InfluxResponse.class);
+                                                        "\"value\"],\"values\":[[1541526758208,4.82]]}]}]}", InfluxResponse.class);
+
+        Assert.assertNotNull(response);
     }
 }

@@ -1,11 +1,13 @@
 package me.michalwozniak.pylek.model;
 
-import java.util.List;
+import java.util.Date;
 
-import lombok.Data;
+import lombok.Value;
 
-@Data
+@Value
 public class InfluxResponse {
 
-    private List<InfluxResults> results;
+    private Date time;
+
+    private Double value;
 }
