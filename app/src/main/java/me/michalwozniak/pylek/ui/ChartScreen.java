@@ -1,17 +1,22 @@
 package me.michalwozniak.pylek.ui;
 
+import java.util.List;
+
 import me.michalwozniak.pylek.base.SubscribablePresenter;
 import me.michalwozniak.pylek.model.AirData;
 import me.michalwozniak.pylek.model.Chart;
 import me.michalwozniak.pylek.model.Station;
 
-public interface AirScreen {
+public interface ChartScreen {
+
+    String EXTRA_STATION = "station";
+    String EXTRA_CHART = "chart";
+
     interface View {
-        void showAirData(AirData data);
-        void showProgress(boolean show);
+        void showChartData(List<AirData> data);
         void showError(String message);
     }
-    interface Presenter extends SubscribablePresenter<AirScreen.View> {
-        void fetchAirData(Station station);
+    interface Presenter extends SubscribablePresenter<ChartScreen.View> {
+        void fetchChartData(Station station);
     }
 }

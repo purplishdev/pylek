@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/refresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.AirScreenActivity">
@@ -10,16 +11,18 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
         <me.michalwozniak.pylek.ArcProgressEx
-            android:id="@+id/pm25"
+            android:id="@+id/pm25Progress"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            app:layout_constraintBottom_toBottomOf="@+id/pm10"
-            app:layout_constraintEnd_toStartOf="@+id/pm10"
+            app:layout_constraintBottom_toBottomOf="@+id/pm10Progress"
+            app:layout_constraintEnd_toStartOf="@+id/pm10Progress"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/pm10"
+            app:layout_constraintTop_toTopOf="@+id/pm10Progress"
             custom:arc_stroke_width="7dp"
             custom:arc_angle="@integer/gauge_arc_angle"
             custom:arc_bottom_text="@string/pm25_label"
@@ -31,14 +34,14 @@
             custom:arc_unfinished_color="#ccc"/>
 
         <me.michalwozniak.pylek.ArcProgressEx
-            android:id="@+id/pm10"
+            android:id="@+id/pm10Progress"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/pm25"
-            app:layout_constraintTop_toBottomOf="@+id/station_select"
+            app:layout_constraintStart_toEndOf="@+id/pm25Progress"
+            app:layout_constraintTop_toBottomOf="@+id/stationSelect"
             custom:arc_stroke_width="7dp"
             custom:arc_angle="@integer/gauge_arc_angle"
             custom:arc_bottom_text="@string/pm10_label"
@@ -50,15 +53,15 @@
             custom:arc_unfinished_color="#ccc"/>
 
         <me.michalwozniak.pylek.ArcProgressEx
-            android:id="@+id/temp"
+            android:id="@+id/temperatureProgress"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            app:layout_constraintBottom_toBottomOf="@+id/pressure"
-            app:layout_constraintEnd_toStartOf="@+id/pressure"
+            app:layout_constraintBottom_toBottomOf="@+id/pressureProgress"
+            app:layout_constraintEnd_toStartOf="@+id/pressureProgress"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/pressure"
+            app:layout_constraintTop_toTopOf="@+id/pressureProgress"
             custom:arc_stroke_width="7dp"
             custom:arc_angle="@integer/gauge_arc_angle"
             custom:arc_bottom_text="@string/temperature_label"
@@ -72,14 +75,14 @@
             custom:arc_unfinished_color="#ccc"/>
 
         <me.michalwozniak.pylek.ArcProgressEx
-            android:id="@+id/pressure"
+            android:id="@+id/pressureProgress"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/temp"
-            app:layout_constraintTop_toBottomOf="@+id/pm10"
+            app:layout_constraintStart_toEndOf="@+id/temperatureProgress"
+            app:layout_constraintTop_toBottomOf="@+id/pm10Progress"
             custom:arc_stroke_width="7dp"
             custom:arc_angle="@integer/gauge_arc_angle"
             custom:arc_bottom_text="@string/pressure_label"
@@ -93,7 +96,7 @@
             custom:arc_unfinished_color="#ccc"/>
 
         <Spinner
-            android:id="@+id/station_select"
+            android:id="@+id/stationSelect"
             android:layout_width="0dp"
             android:layout_height="24dp"
             android:layout_marginStart="8dp"
@@ -125,21 +128,8 @@
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pressure"/>
-
-
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/chart"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lastUpdateLabel"/>
+            app:layout_constraintTop_toBottomOf="@+id/pressureProgress"/>
 
     </android.support.constraint.ConstraintLayout>
+</android.support.v4.widget.SwipeRefreshLayout>
 
-
-
-</ScrollView>

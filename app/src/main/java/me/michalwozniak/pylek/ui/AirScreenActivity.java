@@ -1,8 +1,9 @@
 package me.michalwozniak.pylek.ui;
 
 import android.animation.ArgbEvaluator;
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
@@ -10,56 +11,53 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.OnItemSelected;
-import dagger.android.DaggerActivity;
+import dagger.android.support.DaggerAppCompatActivity;
 import lombok.NonNull;
 import me.michalwozniak.pylek.ArcProgressEx;
 import me.michalwozniak.pylek.R;
 import me.michalwozniak.pylek.model.AirData;
+import me.michalwozniak.pylek.model.Chart;
 import me.michalwozniak.pylek.model.Station;
 
-public class AirScreenActivity extends DaggerActivity implements AirScreen.View {
+public class AirScreenActivity extends DaggerAppCompatActivity implements AirScreen.View {
 
     @Inject
     AirScreen.Presenter mPresenter;
 
-    @BindView(R.id.station_select)
+    @BindView(R.id.refresh)
+    SwipeRefreshLayout mRefreshLayout;
+
+    @BindView(R.id.stationSelect)
     Spinner mSpinner;
 
-    @BindView(R.id.temp)
-    ArcProgressEx temperatureProgress;
+    @BindView(R.id.temperatureProgress)
+    ArcProgressEx mTemperatureProgress;
 
-    @BindView(R.id.pm10)
-    ArcProgressEx pm10Progress;
+    @BindView(R.id.pm10Progress)
+    ArcProgressEx mPM10Progress;
 
-    @BindView(R.id.pm25)
-    ArcProgressEx pm25Progress;
+    @BindView(R.id.pm25Progress)
+    ArcProgressEx mPM25Progress;
 
-    @BindView(R.id.pressure)
-    ArcProgressEx pressureProgress;
+    @BindView(R.id.pressureProgress)
+    ArcProgressEx mPressureProgress;
 
     @BindView(R.id.progressBar)
-    ProgressBar progressBar;
+    ProgressBar mProgressBar;
 
     @BindView(R.id.lastUpdateLabel)
-    TextView lastUpdate;
+    TextView mLastUpdate;
 
-    @BindView(R.id.chart)
-    LineChart mChart;
+    Station mCurrentStation;
 
     private final static ArgbEvaluator mArgbEvaluator = new ArgbEvaluator();
     private final static DateFormat dateFormatter = SimpleDateFormat.getDateTimeInstance();
@@ -73,62 +71,65 @@ public class AirScreenActivity extends DaggerActivity implements AirScreen.View 
 
         mSpinner.setAdapter(new ArrayAdapter<>(this, R.layout.dropdown_item, Station.values()));
 
-        mChart.getDescription().setEnabled(false);
-        mChart.getXAxis().setEnabled(false);
+        mRefreshLayout.setOnRefreshListener(() -> mPresenter.fetchAirData(mCurrentStation));
     }
 
-    @OnItemSelected(R.id.station_select)
+    @OnClick({R.id.pm10Progress, R.id.pm25Progress, R.id.pressureProgress, R.id.temperatureProgress})
+    public void onProgressClick(View view) {
+        Chart chart;
+        switch (view.getId()) {
+            case R.id.pm10Progress:
+                chart = Chart.PM10;
+                break;
+
+            case R.id.pm25Progress:
+                chart = Chart.PM25;
+                break;
+
+            case R.id.pressureProgress:
+                chart = Chart.PRESSURE;
+                break;
+
+            case R.id.temperatureProgress:
+                chart = Chart.TEMPERATURE;
+                break;
+
+            default:
+                throw new IllegalArgumentException("Unknown view type in progress click");
+        }
+
+        Intent intent = new Intent(this, ChartScreenActivity.class);
+        intent.putExtra(ChartScreen.EXTRA_STATION, mCurrentStation);
+        intent.putExtra(ChartScreen.EXTRA_CHART, chart);
+        startActivity(intent);
+    }
+
+
+    @OnItemSelected(R.id.stationSelect)
     public void onStationSelect(int position) {
-        Station station = Station.values()[position];
-        mPresenter.fetchAirData(station);
-        mPresenter.fetchAirDataChart(station);
+        mCurrentStation = Station.values()[position];
+        mPresenter.fetchAirData(mCurrentStation);
     }
 
     @Override
     public void showAirData(@NonNull AirData airData) {
-        setProgress(pm10Progress, airData.getPm10());
-        setProgress(pm25Progress, airData.getPm25());
-        setProgress(temperatureProgress, airData.getTemperature());
-        setProgress(pressureProgress, airData.getPressure());
-        lastUpdate.setText("Ostatnia aktualizacja: " + dateFormatter.format(airData.getDate()));
-    }
-
-    @Override
-    public void showAirDataOnChart(List<AirData> airData) {
-        List<Entry> pm10Entries = new ArrayList<>(airData.size());
-        List<Entry> pm25Entries = new ArrayList<>(airData.size());
-
-        for (AirData data : airData) {
-            pm10Entries.add(new Entry(data.getDate().getTime(), (int)data.getPm10()));
-            pm25Entries.add(new Entry(data.getDate().getTime(), (int)data.getPm25()));
-        }
-
-        // PM10 Dataset
-        LineDataSet pm10DataSet = new LineDataSet(pm10Entries, "PM10");
-        pm10DataSet.setDrawFilled(true);
-        pm10DataSet.setFillColor(Color.GREEN);
-        pm10DataSet.setColor(Color.GREEN);
-        pm10DataSet.setMode(LineDataSet.Mode.LINEAR);
-
-        // PM2.5 Dataset
-        LineDataSet pm25DataSet = new LineDataSet(pm25Entries, "PM2.5");
-        pm25DataSet.setDrawFilled(true);
-        pm25DataSet.setFillColor(Color.CYAN);
-        pm25DataSet.setColor(Color.CYAN);
-        pm25DataSet.setMode(LineDataSet.Mode.LINEAR);
-
-        mChart.setData(new LineData(pm10DataSet, pm25DataSet));
-        mChart.invalidate();
+        setProgress(mPM10Progress, airData.getPm10());
+        setProgress(mPM25Progress, airData.getPm25());
+        setProgress(mTemperatureProgress, airData.getTemperature());
+        setProgress(mPressureProgress, airData.getPressure());
+        mLastUpdate.setText("Ostatnia aktualizacja: " + dateFormatter.format(airData.getDate()));
+        mRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void showProgress(boolean show) {
-        progressBar.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
+        mProgressBar.setVisibility(show ? View.VISIBLE : View.INVISIBLE);
     }
 
     @Override
     public void showError(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        mRefreshLayout.setRefreshing(false);
     }
 
     @Override

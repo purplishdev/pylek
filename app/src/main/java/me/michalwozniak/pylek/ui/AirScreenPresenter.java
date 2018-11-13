@@ -48,19 +48,6 @@ public class AirScreenPresenter extends BasePresenter<AirScreen.View> implements
         );
     }
 
-    @Override
-    public void fetchAirDataChart(Station station) {
-        mCompositeDisposable.add(
-                database.airDataDao().getAll(station)
-                        .subscribeOn(schedulers.computation())
-                        .observeOn(schedulers.ui())
-                        .toObservable()
-                        .flatMapIterable(list -> list)
-                        .toSortedList(AirData::compareTo)
-                        .subscribe(mView::showAirDataOnChart, this::onError)
-        );
-    }
-
     private void saveAirData(AirData airData) {
         mCompositeDisposable.add(
             Single.just(database)

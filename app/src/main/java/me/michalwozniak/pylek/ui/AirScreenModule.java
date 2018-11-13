@@ -10,7 +10,7 @@ import me.michalwozniak.pylek.db.AppDatabase;
 public class AirScreenModule {
 
     @Provides
-    public AirScreen.Presenter providesAirScreenPresenter(AirApi airApi, Schedulers schedulers, AppDatabase database) {
+    public AirScreen.Presenter provideAirScreenPresenter(AirApi airApi, Schedulers schedulers, AppDatabase database) {
         return new AirScreenPresenter(airApi, schedulers, database);
     }
 }
