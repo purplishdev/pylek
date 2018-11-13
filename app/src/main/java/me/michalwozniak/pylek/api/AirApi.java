@@ -5,13 +5,13 @@ import me.michalwozniak.pylek.model.Station;
 
 public interface AirApi {
 
-    Single<Double> getTemperature();
+    Single<Float> getTemperature();
 
-    Single<Double> getHumidity();
+    Single<Float> getHumidity();
 
-    Single<Double> getPressure();
+    Single<Float> getPressure();
 
-    Single<Double> getPM10(Station station);
+    Single<Float> getPM10(Station station);
 
-    Single<Double> getPM25(Station station);
+    Single<Float> getPM25(Station station);
 }

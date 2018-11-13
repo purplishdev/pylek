@@ -12,7 +12,7 @@ import me.michalwozniak.pylek.PylekApp;
 import me.michalwozniak.pylek.api.InfluxRetrofitApi;
 import me.michalwozniak.pylek.base.Schedulers;
 import me.michalwozniak.pylek.base.SimpleSchedulers;
-import me.michalwozniak.pylek.json.InfluxRecordDeserializer;
+import me.michalwozniak.pylek.json.InfluxResponseDeserializer;
 import me.michalwozniak.pylek.model.InfluxResponse;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -27,7 +27,7 @@ public abstract class AppModule {
     @Provides
     public static Gson provideGson() {
         return new GsonBuilder()
-                .registerTypeAdapter(InfluxResponse.class, new InfluxRecordDeserializer())
+                .registerTypeAdapter(InfluxResponse.class, new InfluxResponseDeserializer())
                 .create();
     }
 

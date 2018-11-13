@@ -18,32 +18,33 @@ public class AirRepository implements AirApi {
     private final InfluxRetrofitApi api;
 
     @Override
-    public Single<Double> getTemperature() {
-        return api.query(3, String.format(VALUE_QUERY, "LOCAL_TEMP"), DATABASE, EPOCH)
-                .map(InfluxResponse::getValue);
+    public Single<Float> getTemperature() {
+        return makeValueCall("LOCAL_TEMP", Station.HRYNIEWICZA);
     }
 
     @Override
-    public Single<Double> getHumidity() {
-        return api.query(3, String.format(VALUE_QUERY, "LOCAL_HUM"), DATABASE, EPOCH)
-                .map(InfluxResponse::getValue);
+    public Single<Float> getHumidity() {
+        return makeValueCall("LOCAL_HUM", Station.HRYNIEWICZA);
     }
 
     @Override
-    public Single<Double> getPressure() {
-        return api.query(3, String.format(VALUE_QUERY, "LOCAL_PRESS"), DATABASE, EPOCH)
-                .map(InfluxResponse::getValue);
+    public Single<Float> getPressure() {
+        return makeValueCall("LOCAL_PRESS", Station.HRYNIEWICZA);
     }
 
     @Override
-    public Single<Double> getPM10(Station station) {
-        return api.query(station.getNumber(), String.format(VALUE_QUERY, "ppm10sds011"), DATABASE, EPOCH)
-                .map(InfluxResponse::getValue);
+    public Single<Float> getPM10(Station station) {
+        return makeValueCall("ppm10sds011", station);
     }
 
     @Override
-    public Single<Double> getPM25(Station station) {
-        return api.query(station.getNumber(), String.format(VALUE_QUERY, "ppm25sds011"), DATABASE, EPOCH)
+    public Single<Float> getPM25(Station station) {
+        return makeValueCall("ppm25sds011", station);
+    }
+
+    private Single<Float> makeValueCall(String path, Station station) {
+        String query = String.format(VALUE_QUERY, path);
+        return api.query(station.getNumber(), query, DATABASE, EPOCH)
                 .map(InfluxResponse::getValue);
     }
 }

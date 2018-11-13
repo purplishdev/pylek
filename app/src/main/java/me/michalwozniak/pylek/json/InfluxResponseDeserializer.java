@@ -9,7 +9,7 @@ import java.util.Date;
 
 import me.michalwozniak.pylek.model.InfluxResponse;
 
-public class InfluxRecordDeserializer extends BaseInfluxDeserializer<InfluxResponse> {
+public class InfluxResponseDeserializer extends BaseInfluxDeserializer<InfluxResponse> {
 
     @Override
     protected InfluxResponse tryDeserialize(JsonElement series, JsonDeserializationContext context) throws JsonParseException {
@@ -24,7 +24,7 @@ public class InfluxRecordDeserializer extends BaseInfluxDeserializer<InfluxRespo
 
             JsonArray record = values.get(0).getAsJsonArray();
             Date time = new Date(record.get(0).getAsLong());
-            double value = record.get(1).getAsDouble();
+            float value = record.get(1).getAsFloat();
 
             return new InfluxResponse(time, value);
         } catch (Exception e) {

@@ -9,5 +9,5 @@ public class InfluxResponse {
 
     private Date time;
 
-    private Double value;
+    private Float value;
 }
