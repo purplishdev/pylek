@@ -3,7 +3,7 @@ package me.michalwozniak.pylek.base;
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
-public class SimpleSchedulers implements Schedulers {
+public class AppSchedulers implements Schedulers {
 
     @Override
     public Scheduler ui() {
@@ -11,7 +11,12 @@ public class SimpleSchedulers implements Schedulers {
     }
 
     @Override
-    public Scheduler background() {
+    public Scheduler io() {
         return io.reactivex.schedulers.Schedulers.io();
+    }
+
+    @Override
+    public Scheduler computation() {
+        return io.reactivex.schedulers.Schedulers.computation();
     }
 }

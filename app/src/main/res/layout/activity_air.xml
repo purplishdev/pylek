@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,122 +7,139 @@
     android:layout_height="match_parent"
     tools:context=".ui.AirScreenActivity">
 
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <me.michalwozniak.pylek.ArcProgressEx
+            android:id="@+id/pm25"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintBottom_toBottomOf="@+id/pm10"
+            app:layout_constraintEnd_toStartOf="@+id/pm10"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/pm10"
+            custom:arc_stroke_width="7dp"
+            custom:arc_angle="@integer/gauge_arc_angle"
+            custom:arc_bottom_text="@string/pm25_label"
+            custom:arc_bottom_text_size="12dp"
+            custom:arc_finished_color="#304ffe"
+            custom:arc_progress="0"
+            custom:arc_max="100"
+            custom:arc_suffix_text=" "
+            custom:arc_unfinished_color="#ccc"/>
 
-    <me.michalwozniak.pylek.ArcProgressEx
-        android:id="@+id/pm25"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:layout_constraintBottom_toBottomOf="@+id/pm10"
-        app:layout_constraintEnd_toStartOf="@+id/pm10"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/pm10"
-        custom:arc_stroke_width="7dp"
-        custom:arc_angle="@integer/gauge_arc_angle"
-        custom:arc_bottom_text="@string/pm25_label"
-        custom:arc_bottom_text_size="12dp"
-        custom:arc_finished_color="#304ffe"
-        custom:arc_progress="0"
-        custom:arc_max="100"
-        custom:arc_suffix_text=" "
-        custom:arc_unfinished_color="#ccc"/>
+        <me.michalwozniak.pylek.ArcProgressEx
+            android:id="@+id/pm10"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/pm25"
+            app:layout_constraintTop_toBottomOf="@+id/station_select"
+            custom:arc_stroke_width="7dp"
+            custom:arc_angle="@integer/gauge_arc_angle"
+            custom:arc_bottom_text="@string/pm10_label"
+            custom:arc_bottom_text_size="12dp"
+            custom:arc_finished_color="#304ffe"
+            custom:arc_progress="0"
+            custom:arc_max="180"
+            custom:arc_suffix_text=" "
+            custom:arc_unfinished_color="#ccc"/>
 
-    <me.michalwozniak.pylek.ArcProgressEx
-        android:id="@+id/pm10"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/pm25"
-        app:layout_constraintTop_toBottomOf="@+id/station_select"
-        custom:arc_stroke_width="7dp"
-        custom:arc_angle="@integer/gauge_arc_angle"
-        custom:arc_bottom_text="@string/pm10_label"
-        custom:arc_bottom_text_size="12dp"
-        custom:arc_finished_color="#304ffe"
-        custom:arc_progress="0"
-        custom:arc_max="180"
-        custom:arc_suffix_text=" "
-        custom:arc_unfinished_color="#ccc"/>
+        <me.michalwozniak.pylek.ArcProgressEx
+            android:id="@+id/temp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintBottom_toBottomOf="@+id/pressure"
+            app:layout_constraintEnd_toStartOf="@+id/pressure"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/pressure"
+            custom:arc_stroke_width="7dp"
+            custom:arc_angle="@integer/gauge_arc_angle"
+            custom:arc_bottom_text="@string/temperature_label"
+            custom:arc_bottom_text_size="11dp"
+            custom:arc_finished_color="#304ffe"
+            custom:arc_min="-40"
+            custom:arc_max="50"
+            custom:arc_progress="0"
+            custom:arc_progress_format="#.#"
+            custom:arc_suffix_text=" "
+            custom:arc_unfinished_color="#ccc"/>
 
-    <me.michalwozniak.pylek.ArcProgressEx
-        android:id="@+id/temp"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:layout_constraintBottom_toBottomOf="@+id/pressure"
-        app:layout_constraintEnd_toStartOf="@+id/pressure"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/pressure"
-        custom:arc_stroke_width="7dp"
-        custom:arc_angle="@integer/gauge_arc_angle"
-        custom:arc_bottom_text="@string/temperature_label"
-        custom:arc_bottom_text_size="11dp"
-        custom:arc_finished_color="#304ffe"
-        custom:arc_min="-40"
-        custom:arc_max="50"
-        custom:arc_progress="0"
-        custom:arc_progress_format="#.#"
-        custom:arc_suffix_text=" "
-        custom:arc_unfinished_color="#ccc"/>
+        <me.michalwozniak.pylek.ArcProgressEx
+            android:id="@+id/pressure"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/temp"
+            app:layout_constraintTop_toBottomOf="@+id/pm10"
+            custom:arc_stroke_width="7dp"
+            custom:arc_angle="@integer/gauge_arc_angle"
+            custom:arc_bottom_text="@string/pressure_label"
+            custom:arc_bottom_text_size="12dp"
+            custom:arc_finished_color="#304ffe"
+            custom:arc_min="880"
+            custom:arc_max="1050"
+            custom:arc_progress="0"
+            custom:arc_suffix_text=" "
+            custom:arc_text_size="32dp"
+            custom:arc_unfinished_color="#ccc"/>
 
-    <me.michalwozniak.pylek.ArcProgressEx
-        android:id="@+id/pressure"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/temp"
-        app:layout_constraintTop_toBottomOf="@+id/pm10"
-        custom:arc_stroke_width="7dp"
-        custom:arc_angle="@integer/gauge_arc_angle"
-        custom:arc_bottom_text="@string/pressure_label"
-        custom:arc_bottom_text_size="12dp"
-        custom:arc_finished_color="#304ffe"
-        custom:arc_min="880"
-        custom:arc_max="1050"
-        custom:arc_progress="0"
-        custom:arc_suffix_text=" "
-        custom:arc_text_size="32dp"
-        custom:arc_unfinished_color="#ccc"/>
+        <Spinner
+            android:id="@+id/station_select"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/progressBar"/>
 
-    <Spinner
-        android:id="@+id/station_select"
-        android:layout_width="0dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar"/>
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="14dp"
+            android:indeterminate="true"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="0dp"
-        android:layout_height="14dp"
-        android:indeterminate="true"
-        android:visibility="invisible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        <TextView
+            android:id="@+id/lastUpdateLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pressure"/>
 
-    <TextView
-        android:id="@+id/lastUpdateLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pressure"/>
 
-</android.support.constraint.ConstraintLayout>
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/chart"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lastUpdateLabel"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+
+
+</ScrollView>

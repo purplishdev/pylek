@@ -1,5 +1,6 @@
 package me.michalwozniak.pylek.di;
 
+import android.arch.persistence.room.Room;
 import android.content.Context;
 
 import com.google.gson.Gson;
@@ -11,7 +12,8 @@ import dagger.Provides;
 import me.michalwozniak.pylek.PylekApp;
 import me.michalwozniak.pylek.api.InfluxRetrofitApi;
 import me.michalwozniak.pylek.base.Schedulers;
-import me.michalwozniak.pylek.base.SimpleSchedulers;
+import me.michalwozniak.pylek.base.AppSchedulers;
+import me.michalwozniak.pylek.db.AppDatabase;
 import me.michalwozniak.pylek.json.InfluxResponseDeserializer;
 import me.michalwozniak.pylek.model.InfluxResponse;
 import retrofit2.Retrofit;
@@ -23,6 +25,12 @@ public abstract class AppModule {
 
     @Binds
     abstract public Context bindContext(PylekApp application);
+
+    @Provides
+    public static AppDatabase provideAppDatabase(PylekApp application) {
+        return Room.databaseBuilder(application, AppDatabase.class, "pylek-db")
+                .build();
+    }
 
     @Provides
     public static Gson provideGson() {
@@ -47,6 +55,6 @@ public abstract class AppModule {
 
     @Provides
     public static Schedulers provideSchedulers() {
-        return new SimpleSchedulers();
+        return new AppSchedulers();
     }
 }

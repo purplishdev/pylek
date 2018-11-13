@@ -5,5 +5,6 @@ import io.reactivex.Scheduler;
 public interface Schedulers {
 
     Scheduler ui();
-    Scheduler background();
+    Scheduler io();
+    Scheduler computation();
 }
